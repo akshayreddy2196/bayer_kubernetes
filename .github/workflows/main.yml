@@ -1,0 +1,29 @@
+name: CI/CD Python Application
+
+on:
+ push:
+ workflow_dispatch:
+
+jobs:
+ ci-cd:
+  runs-on: ubuntu-latest
+  env:
+   DOCKER_IMAGE: akshayreddy597/flask-api:v1
+   
+  steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4.2.2
+
+    - name: Setup Kubectl for kubernetes
+      uses: azure/setup-kubectl@v3
+      with:
+       version: 'latest'
+    - name: Setup Minikube
+      run: |
+       minikube start
+       kubectl config use-context minikube
+       
+    - name: Deploy to Kubernetes
+      run: |
+       kubectl apply  -f k8s/deployment.yml
+       kubectl apply -f k8s/service.yml
