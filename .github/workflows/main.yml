@@ -30,4 +30,4 @@ jobs:
 
     - name: Get Minikube Service URL
       run: |
-         minikube service my-app --url
+         minikube service flask-api-python-app --url
